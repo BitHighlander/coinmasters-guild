@@ -48,10 +48,12 @@ import { v4 as uuidv4 } from "uuid";
 
 // import { Keyring } from "@shapeshiftoss/hdwallet-core";
 
+let IS_DEV = true
+
 export enum WalletActions {
   SET_STATUS = "SET_STATUS",
   SET_USERNAME = "SET_USERNAME",
-  SET_USER = "SET_WALLETS",
+  SET_USER = "SET_USER",
   SET_CONTEXT = "SET_CONTEXT",
   SET_BLOCKCHAIN = "SET_BLOCKCHAIN",
   SET_ASSET = "SET_ASSET",
@@ -293,10 +295,16 @@ export const PioneerProvider = ({
 
         // add custom paths
         const paths: any = [];
-        const spec = "https://pioneers.dev/spec/swagger.json";
-        const wss = "wss://pioneers.dev";
-        // const spec = "http://127.0.0.1:9001/spec/swagger.json";
-        // const wss = "ws://127.0.0.1:9001";
+        let spec
+        let wss
+        if(IS_DEV){
+          spec = "http://127.0.0.1:9001/spec/swagger.json";
+          wss = "ws://127.0.0.1:9001";
+        } else {
+          spec = "https://pioneers.dev/spec/swagger.json";
+          wss = "wss://pioneers.dev";
+        }
+
         const configPioneer: any = {
           blockchains,
           username,
